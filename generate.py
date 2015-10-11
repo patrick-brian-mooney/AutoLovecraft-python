@@ -51,7 +51,7 @@ patrick_logger.log_it("INFO: Tumblr authentication constants set up, starting ru
 # Next, pick out a title between 10 and 70 characters
 the_length = 300
 patrick_logger.log_it("INFO: getting a story title ...", 2)
-while not (10 <= the_length <= 70):
+while not 10 <= the_length <= 70:
     the_title = subprocess.check_output(["dadadodo -c 1 -l /lovecraft/chains.dat -w 10000"], shell=True).strip()
     the_length = len(the_title)
     patrick_logger.log_it("INFO: The story title generated was '" + the_title + ".'", 2)
