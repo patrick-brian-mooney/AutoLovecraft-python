@@ -1,9 +1,4 @@
-#! /usr/bin/env python
-
-
-# NEVER edit this version of the script directly.
-
-
+#! /usr/bin/env python3
 """Script to post to AutoLovecraft.tumblr.com. Really rough sketch of a
 script here. Not really meant for public use. Based on my earlier script to
 do a similar job for the IrishLitDiscourses Tumblr account; see
@@ -18,13 +13,17 @@ SOFTWARE IS OFFERED WITHOUT WARRANTY OF ANY KIND AT ALL.
 """
 
 
+# NEVER edit this version of the script directly.
+
+
+
 # Thanks to https://epicjefferson.wordpress.com/2014/09/28/python-to-tumblr/ for first steps here
 
 import random
 import pprint
 import subprocess
 
-import pytumblr
+from tumblpy import Tumblpy
 
 import patrick_logger    # From https://github.com/patrick-brian-mooney/personal-library
 
@@ -39,12 +38,11 @@ def print_usage():    # Note that, currently, nothing calls this.
     print(__doc__)
 
 # OK, set up the constants we'll need.
-the_client = pytumblr.TumblrRestClient(
-  'FILL ME IN',  #consumer_key
-  'FILL ME IN',  #consumer_secret
-  'FILL ME IN',  #token_key
-  'FILL ME IN'  #token_secret
-)
+the_client = Tumblpy('FILL ME IN',   #consumer_key
+   'FILL ME IN',                     #consumer_secret
+   'FILL ME IN',                     #token_key
+   'FILL ME IN'                      #token_secret
+     )
 
 patrick_logger.log_it("INFO: Tumblr authentication constants set up, starting run ...", 2)
 
@@ -52,7 +50,7 @@ patrick_logger.log_it("INFO: Tumblr authentication constants set up, starting ru
 the_length = 300
 patrick_logger.log_it("INFO: getting a story title ...", 2)
 while not 10 <= the_length <= 70:
-    the_title = subprocess.check_output(["dadadodo -c 1 -l /lovecraft/chains.dat -w 10000"], shell=True).strip()
+    the_title = subprocess.check_output(["dadadodo -c 1 -l /lovecraft/chains.dat -w 10000"], shell=True).decode().strip()
     the_length = len(the_title)
     patrick_logger.log_it("INFO: The story title generated was '" + the_title + ".'", 2)
     patrick_logger.log_it("INFO:    And the length of that title is: " + str(the_length), 2)
@@ -64,9 +62,9 @@ while not 10 <= the_length <= 70:
 
 patrick_logger.log_it("OK, we've got a title.\n\n", 2)
 
-the_blog_name = "AutoLovecraft"
-normal_tags = ['H.P. Lovecraft', 'automatically generated text', 'Patrick Mooney', 'dadadodo']
-temporary_tags = ['The Call of Cthulhu', '1928', 'The Call of Cthulhu week']
+
+normal_tags = 'H.P. Lovecraft, automatically generated text, Patrick Mooney, dadadodo,'
+temporary_tags = 'The Call of Cthulhu, 1928, The Call of Cthulhu month'
 story_length = random.choice(list(range(25, 55)))
 the_content = ''
 
@@ -78,7 +76,9 @@ the_content = the_content.strip()
 
 # All right, we're ready. Let's go.
 patrick_logger.log_it('INFO: Attempting to post the content', 2)
-the_status = the_client.create_text(the_blog_name, state="published", tags=normal_tags + temporary_tags, title=the_title, body=the_content)
+blog_url = the_client.post('user/info')
+blog_url = blog_url['user']['blogs'][0]['url']
+the_status = the_client.post('post', blog_url=blog_url, params={'type': 'text', 'tags': normal_tags + temporary_tags, 'title': the_title, 'body': the_content})
 patrick_logger.log_it('INFO: the_status is: ' + pprint.pformat(the_status), 2)
 
 try:
