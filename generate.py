@@ -36,7 +36,7 @@ patrick_logger.verbosity_level = 2
 def print_usage():    # Note that, currently, nothing calls this.
     """Print the docstring as a usage message to stdout"""
     patrick_logger.log_it("INFO: print_usage() was called")
-    print __doc__
+    print(__doc__)
 
 # OK, set up the constants we'll need.
 the_client = pytumblr.TumblrRestClient(
@@ -65,9 +65,9 @@ while not 10 <= the_length <= 70:
 patrick_logger.log_it("OK, we've got a title.\n\n", 2)
 
 the_blog_name = "AutoLovecraft"
-normal_tags = ['H.P. Lovecraft', 'automatically generated text', 'Patrick Mooney', 'dadadodo', 'automatically generated text']
-temporary_tags = ['R.H. Barlow', "Till A' the Seas", '1935']
-story_length = random.choice(range(25, 55))
+normal_tags = ['H.P. Lovecraft', 'automatically generated text', 'Patrick Mooney', 'dadadodo']
+temporary_tags = ['The Call of Cthulhu', '1928', 'The Call of Cthulhu week']
+story_length = random.choice(list(range(25, 55)))
 the_content = ''
 
 patrick_logger.log_it('INFO: tags are:' + pprint.pformat(normal_tags + temporary_tags), 2)
