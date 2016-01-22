@@ -13,19 +13,15 @@ SOFTWARE IS OFFERED WITHOUT WARRANTY OF ANY KIND AT ALL.
 """
 
 
-# NEVER edit this version of the script directly.
-
-
-
 # Thanks to https://epicjefferson.wordpress.com/2014/09/28/python-to-tumblr/ for first steps here
 
 import random
 import pprint
 import subprocess
 
-from tumblpy import Tumblpy
-
 import patrick_logger    # From https://github.com/patrick-brian-mooney/personal-library
+import social_media      # From https://github.com/patrick-brian-mooney/personal-library
+from social_media_auth import autolovecraft_client
 
 # Set up default values
 patrick_logger.verbosity_level = 2
@@ -36,13 +32,6 @@ def print_usage():    # Note that, currently, nothing calls this.
     """Print the docstring as a usage message to stdout"""
     patrick_logger.log_it("INFO: print_usage() was called")
     print(__doc__)
-
-# OK, set up the constants we'll need.
-the_client = Tumblpy('FILL ME IN',   #consumer_key
-   'FILL ME IN',                     #consumer_secret
-   'FILL ME IN',                     #token_key
-   'FILL ME IN'                      #token_secret
-     )
 
 patrick_logger.log_it("INFO: Tumblr authentication constants set up, starting run ...", 2)
 
@@ -64,21 +53,22 @@ patrick_logger.log_it("OK, we've got a title.\n\n", 2)
 
 
 normal_tags = 'H.P. Lovecraft, automatically generated text, Patrick Mooney, dadadodo,'
-temporary_tags = 'The Call of Cthulhu, 1928, The Call of Cthulhu month'
+temporary_tags = 'The Haunter of the Dark, 1935, 1936, The Haunter of the Dark Week week'
 story_length = random.choice(list(range(25, 55)))
 the_content = ''
 
 patrick_logger.log_it('INFO: tags are:' + pprint.pformat(normal_tags + temporary_tags), 2)
 patrick_logger.log_it('INFO: requested story length is: ' + str(story_length) + ' sentences ... generating ...', 2)
 
-the_content = subprocess.check_output(["dadadodo -c " + str(story_length) + " -l /lovecraft/chains.dat -w 10000"], shell=True)
-the_content = the_content.strip()
+the_content = subprocess.check_output(["dadadodo -c " + str(story_length) + " -l /lovecraft/chains.dat -w 10000"], shell=True).decode()
+the_lines = ["<p>" + the_line.strip() + "</p>" for the_line in the_content.split('\n\n')]
+patrick_logger.log_it("the_lines: " + pprint.pformat(the_lines))
+the_content = "\n\n".join(the_lines)
+patrick_logger.log_it("the_content: \n\n" + the_content)
 
 # All right, we're ready. Let's go.
 patrick_logger.log_it('INFO: Attempting to post the content', 2)
-blog_url = the_client.post('user/info')
-blog_url = blog_url['user']['blogs'][0]['url']
-the_status = the_client.post('post', blog_url=blog_url, params={'type': 'text', 'tags': normal_tags + temporary_tags, 'title': the_title, 'body': the_content})
+the_status = social_media.tumblr_text_post(autolovecraft_client, normal_tags + temporary_tags, the_title, the_content)
 patrick_logger.log_it('INFO: the_status is: ' + pprint.pformat(the_status), 2)
 
 try:
