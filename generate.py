@@ -38,10 +38,10 @@ the_markov_length, the_starts, the_mapping = read_chains(chains_file)
 
 patrick_logger.log_it("INFO: Tumblr authentication constants set up, starting run ...", 2)
 
-# Next, pick out a title between 6 and 110 characters
+# Next, pick out a title between 6 and 135 characters
 the_length = 300
 patrick_logger.log_it("INFO: getting a story title ...", 2)
-while not 6 <= the_length <= 110:
+while not 6 <= the_length <= 135:
     the_title = gen_text(the_mapping, the_starts, markov_length=the_markov_length, sentences_desired=1, paragraph_break_probability=0).strip()
     the_length = len(the_title)
     patrick_logger.log_it("INFO: The story title generated was '" + the_title + ".'", 2)
@@ -56,7 +56,7 @@ patrick_logger.log_it("OK, we've got a title.\n\n", 2)
 
 
 normal_tags = 'H.P. Lovecraft, automatically generated text, Patrick Mooney, Python,'
-temporary_tags = 'The Haunter of the Dark, 1935, 1936, The Haunter of the Dark week'
+temporary_tags = 'Azathoth, 1922, 1938, the Azathoth interlude'
 story_length = random.choice(list(range(25, 55)))
 the_content = ''
 
