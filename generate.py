@@ -24,7 +24,6 @@ from social_media_auth import autolovecraft_client
 sys.path.append('/lovecraft/markov_sentence_generator/')
 from sentence_generator import *                            # https://github.com/patrick-brian-mooney/markov-sentence-generator
 
-
 # Set up default values
 patrick_logger.verbosity_level = 2
 chains_file = '/lovecraft/chains.dat'
@@ -39,10 +38,10 @@ the_markov_length, the_starts, the_mapping = read_chains(chains_file)
 
 patrick_logger.log_it("INFO: Tumblr authentication constants set up, starting run ...", 2)
 
-# Next, pick out a title between 10 and 70 characters
+# Next, pick out a title between 8 and 85 characters
 the_length = 300
 patrick_logger.log_it("INFO: getting a story title ...", 2)
-while not 10 <= the_length <= 70:
+while not 8 <= the_length <= 85:
     the_title = gen_text(the_mapping, the_starts, markov_length=the_markov_length, sentences_desired=1, paragraph_break_probability=0).strip()
     the_length = len(the_title)
     patrick_logger.log_it("INFO: The story title generated was '" + the_title + ".'", 2)
