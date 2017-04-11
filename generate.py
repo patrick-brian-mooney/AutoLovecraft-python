@@ -26,7 +26,7 @@ from sentence_generator import *                            # https://github.com
 
 # Set up default values
 normal_tags = 'H.P. Lovecraft, automatically generated text, Patrick Mooney, Python, Markov chains,'
-temporary_tags = 'The Festival, 1923, The Festival week'
+temporary_tags = 'The Unnamable, 1923, The Unnamable week'
 story_length = random.choice(list(range(30, 70)))
 the_content = ''
 
