@@ -24,14 +24,18 @@ from social_media_auth import autolovecraft_client
 sys.path.append('/lovecraft/markov_sentence_generator/')
 from sentence_generator import *                            # https://github.com/patrick-brian-mooney/markov-sentence-generator
 
-# Set up default values
-normal_tags = 'H.P. Lovecraft, automatically generated text, Patrick Mooney, Python, Markov chains,'
-temporary_tags = 'The Unnamable, 1923, The Unnamable week'
-story_length = random.choice(list(range(25, 71)))
-the_content = ''
 
 patrick_logger.verbosity_level = 2
 chains_file = '/lovecraft/chains.dat'
+
+
+# Set up default values
+with open('/lovecraft/current-tags') as tagfile:
+    the_tags = [t.strip() for t in tagfile.readlines()]
+
+story_length = random.choice(list(range(25, 71)))
+the_content = ''
+
 
 # Utility functions
 def print_usage():    # Note that, currently, nothing calls this.
@@ -61,7 +65,7 @@ while not 10 <= the_length <= 70:
 
 patrick_logger.log_it("OK, we've got a title.\n\n", 2)
 
-patrick_logger.log_it('INFO: tags are:' + pprint.pformat(normal_tags + temporary_tags), 2)
+patrick_logger.log_it('INFO: tags are:' + pprint.pformat(the_tags), 2)
 patrick_logger.log_it('INFO: requested story length is: ' + str(story_length) + ' sentences ... generating ...', 2)
 
 the_content = gen_text(the_mapping, the_starts, markov_length=the_markov_length, sentences_desired=story_length, paragraph_break_probability=0.2)
@@ -72,7 +76,7 @@ patrick_logger.log_it("the_content: \n\n" + the_content)
 
 # All right, we're ready. Let's go.
 patrick_logger.log_it('INFO: Attempting to post the content', 2)
-the_status = social_media.tumblr_text_post(autolovecraft_client, normal_tags + temporary_tags, the_title, the_content)
+the_status = social_media.tumblr_text_post(autolovecraft_client, the_tags, the_title, the_content)
 patrick_logger.log_it('INFO: the_status is: ' + pprint.pformat(the_status), 2)
 
 try:
@@ -81,4 +85,4 @@ try:
 except IOError:
     patrick_logger.log_it("ERROR: Can't add the title to the list of used titles.", 0)
 
-patrick_logger.log_it('INFO: We\'re done', 2)
+patrick_logger.log_it("INFO: We're done", 2)
