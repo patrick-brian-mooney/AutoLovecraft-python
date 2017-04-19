@@ -31,7 +31,7 @@ chains_file = '/lovecraft/chains.dat'
 
 # Set up default values
 with open('/lovecraft/current-tags') as tagfile:
-    the_tags = [t.strip() for t in tagfile.readlines()]
+    the_tags = ', '.join([t.strip() for t in tagfile.readlines()])
 
 story_length = random.choice(list(range(25, 71)))
 the_content = ''
