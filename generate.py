@@ -20,9 +20,7 @@ import patrick_logger    # From https://github.com/patrick-brian-mooney/personal
 import social_media      # From https://github.com/patrick-brian-mooney/personal-library
 from social_media_auth import autolovecraft_client
 
-
-sys.path.append('/lovecraft/markov_sentence_generator/')
-from sentence_generator import *                            # https://github.com/patrick-brian-mooney/markov-sentence-generator
+import sentence_generator as sg         # https://github.com/patrick-brian-mooney/markov-sentence-generator
 
 
 patrick_logger.verbosity_level = 2
@@ -45,7 +43,8 @@ def print_usage():    # Note that, currently, nothing calls this.
 
 patrick_logger.log_it("INFO: tags and sentence lengths set up ...", 2)
 
-the_markov_length, the_starts, the_mapping = read_chains(chains_file)
+genny = sg.TextGenerator(name='Lovecraft Generator')
+genny.chains.read_chains(chains_file)
 
 patrick_logger.log_it("INFO: chains read, starting run ...", 2)
 
@@ -53,11 +52,11 @@ patrick_logger.log_it("INFO: chains read, starting run ...", 2)
 the_length = 300
 patrick_logger.log_it("INFO: getting a story title ...", 2)
 while not 10 <= the_length <= 70:
-    the_title = gen_text(the_mapping, the_starts, markov_length=the_markov_length, sentences_desired=1, paragraph_break_probability=0).strip()
+    the_title = genny.gen_text().strip()
     the_length = len(the_title)
-    patrick_logger.log_it("INFO: The story title generated was '" + the_title + ".'", 2)
+    patrick_logger.log_it("INFO: The story title generated was '%s'" % the_title, 2)
     patrick_logger.log_it("INFO:    And the length of that title is: " + str(the_length), 2)
-    if the_title in open('/lovecraft/titles.txt').read():    # Incidentally, this is a really bad idea if the log of titles ever gets very big
+    if the_title in open('/lovecraft/titles.txt').read():
         patrick_logger.log_it("That title's been used! Trying again ...\n\n\n")
         the_length = 300                                                            # Force the loop to grind through again
     else:
@@ -68,7 +67,7 @@ patrick_logger.log_it("OK, we've got a title.\n\n", 2)
 patrick_logger.log_it('INFO: tags are:' + pprint.pformat(the_tags), 2)
 patrick_logger.log_it('INFO: requested story length is: ' + str(story_length) + ' sentences ... generating ...', 2)
 
-the_content = gen_text(the_mapping, the_starts, markov_length=the_markov_length, sentences_desired=story_length, paragraph_break_probability=0.2)
+the_content = genny.gen_text(sentences_desired=story_length, paragraph_break_probability=0.2)
 the_lines = ["<p>" + the_line.strip() + "</p>" for the_line in the_content.split('\n\n')]
 patrick_logger.log_it("the_lines: " + pprint.pformat(the_lines), 2)
 the_content = "\n\n".join(the_lines)
