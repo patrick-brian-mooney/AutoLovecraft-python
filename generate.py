@@ -20,7 +20,7 @@ import patrick_logger    # From https://github.com/patrick-brian-mooney/personal
 import social_media      # From https://github.com/patrick-brian-mooney/personal-library
 from social_media_auth import autolovecraft_client
 
-import sentence_generator as sg         # https://github.com/patrick-brian-mooney/markov-sentence-generator
+import text_generator as tg         # https://github.com/patrick-brian-mooney/markov-sentence-generator
 
 
 patrick_logger.verbosity_level = 2
@@ -43,7 +43,7 @@ def print_usage():    # Note that, currently, nothing calls this.
 
 patrick_logger.log_it("INFO: tags and sentence lengths set up ...", 2)
 
-genny = sg.TextGenerator(name='Lovecraft Generator')
+genny = tg.TextGenerator(name='Lovecraft Generator')
 genny.chains.read_chains(chains_file)
 
 patrick_logger.log_it("INFO: chains read, starting run ...", 2)
