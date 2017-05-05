@@ -24,7 +24,7 @@ import text_generator as tg         # https://github.com/patrick-brian-mooney/ma
 
 
 patrick_logger.verbosity_level = 2
-chains_file = '/lovecraft/chains.dat'
+chains_file = '/lovecraft/corpora/The Dream-Quest of Unknown Kadath.2.pkl'
 
 
 # Set up default values
