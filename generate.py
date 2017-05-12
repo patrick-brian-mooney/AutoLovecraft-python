@@ -14,7 +14,7 @@ SOFTWARE IS OFFERED WITHOUT WARRANTY OF ANY KIND AT ALL.
 
 # Thanks to https://epicjefferson.wordpress.com/2014/09/28/python-to-tumblr/ for first steps here
 
-import random, pprint, subprocess, sys
+import random, pprint
 
 import patrick_logger    # From https://github.com/patrick-brian-mooney/personal-library
 import social_media      # From https://github.com/patrick-brian-mooney/personal-library
@@ -75,8 +75,9 @@ patrick_logger.log_it("the_content: \n\n" + the_content)
 
 # All right, we're ready. Let's go.
 patrick_logger.log_it('INFO: Attempting to post the content', 2)
-the_status = social_media.tumblr_text_post(autolovecraft_client, the_tags, the_title, the_content)
+the_status, the_tumblr_data = social_media.tumblr_text_post(autolovecraft_client, the_tags, the_title, the_content)
 patrick_logger.log_it('INFO: the_status is: ' + pprint.pformat(the_status), 2)
+patrick_logger.log_it('INFO: the_tumblr_data is: ' + pprint.pformat(the_tumblr_data), 2)
 
 try:
     patrick_logger.log_it('INFO: Adding title of that post to list of titles', 2)
