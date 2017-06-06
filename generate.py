@@ -24,7 +24,7 @@ import text_generator as tg         # https://github.com/patrick-brian-mooney/ma
 
 
 patrick_logger.verbosity_level = 2
-chains_file = '/lovecraft/corpora/Silver Key.2.pkl'
+chains_file = '/lovecraft/corpora/Polaris.3.pkl'
 
 
 # Set up default values
