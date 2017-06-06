@@ -14,7 +14,7 @@ SOFTWARE IS OFFERED WITHOUT WARRANTY OF ANY KIND AT ALL.
 
 # Thanks to https://epicjefferson.wordpress.com/2014/09/28/python-to-tumblr/ for first steps here
 
-import random, pprint
+import random, pprint, json, bz2, os, datetime 
 
 import patrick_logger    # From https://github.com/patrick-brian-mooney/personal-library
 import social_media      # From https://github.com/patrick-brian-mooney/personal-library
@@ -25,7 +25,7 @@ import text_generator as tg         # https://github.com/patrick-brian-mooney/ma
 
 patrick_logger.verbosity_level = 2
 chains_file = '/lovecraft/corpora/Polaris.3.pkl'
-
+post_archives = '/lovecraft/archives'
 
 # Set up default values
 with open('/lovecraft/current-tags') as tagfile:
@@ -84,5 +84,13 @@ try:
     open('/lovecraft/titles.txt', 'a').write(the_title + '\n')
 except IOError:
     patrick_logger.log_it("ERROR: Can't add the title to the list of used titles.", 0)
+
+# Keep an archived copy
+post_data = {'title': the_title, 'text': the_content, 'time': datetime.datetime.now().isoformat() }
+post_data['formatted_text'], post_data['tags'] = the_lines, the_tags
+post_data['status_code'], post_data['tumblr_data'] = the_status, the_tumblr_data
+archive_name = "%s — %s.json.bz2" % (the_status['id'], the_title)
+with bz2.BZ2File(os.path.join(post_archives, archive_name), mode='wb') as archive_file:
+    archive_file.write(json.dumps(post_data, sort_keys=True, indent=3, ensure_ascii=False).encode())
 
 patrick_logger.log_it("INFO: We're done", 2)
