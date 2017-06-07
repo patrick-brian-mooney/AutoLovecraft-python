@@ -8,7 +8,7 @@ cd /tmp
 mkdir $DATETIME
 cd $DATETIME
 
-wget -mpNHk -D .media.tumblr.com,autolovecraft.tumblr.com -R "*avatar*","*\?*","*_[0-9][0-9][0-9].*" http://autolovecraft.tumblr.com -o /home/patrick/Desktop/autolovecraft-backup.log
+wget -mpNHk -D .media.tumblr.com,autolovecraft.tumblr.com -R "*avatar*","*\?*","*_[0-9][0-9][0-9].*" http://autolovecraft.tumblr.com/page/250 -o /home/patrick/Desktop/autolovecraft-backup.log
 tar c -PSvv --to-stdout * 2>> /home/patrick/Desktop/autolovecraft-backup.log | bzip2 -z 2>> /home/patrick/Desktop/autolovecraft-backup.log > "/lovecraft/backups/$DATETIME.tar.bz2"
 
 cd ..
