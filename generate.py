@@ -81,7 +81,8 @@ patrick_logger.log_it('INFO: the_tumblr_data is: ' + pprint.pformat(the_tumblr_d
 
 try:
     patrick_logger.log_it('INFO: Adding title of that post to list of titles', 2)
-    open('/lovecraft/titles.txt', 'a').write(the_title + '\n')
+    with open('/lovecraft/titles.txt', 'a') as f:
+        f.write(the_title + '\n')
 except IOError:
     patrick_logger.log_it("ERROR: Can't add the title to the list of used titles.", 0)
 
