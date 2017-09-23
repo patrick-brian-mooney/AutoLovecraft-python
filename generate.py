@@ -24,7 +24,7 @@ import text_generator as tg         # https://github.com/patrick-brian-mooney/ma
 
 
 patrick_logger.verbosity_level = 2
-chains_file = '/lovecraft/corpora/The Cats of Ulthar.2.pkl'
+chains_file = '/lovecraft/corpora/The Other Gods.3.pkl'
 post_archives = '/lovecraft/archives'
 
 # Set up default values
