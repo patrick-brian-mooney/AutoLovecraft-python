@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 """Script to post to AutoLovecraft.tumblr.com. Really rough sketch of a
 script here. Not really meant for public use. Based on my earlier script to
 do a similar job for the IrishLitDiscourses Tumblr account; see
@@ -16,15 +16,15 @@ SOFTWARE IS OFFERED WITHOUT WARRANTY OF ANY KIND AT ALL.
 
 import random, pprint, json, bz2, os, datetime 
 
-import patrick_logger    # From https://github.com/patrick-brian-mooney/personal-library
-import social_media      # From https://github.com/patrick-brian-mooney/personal-library
+import patrick_logger               # From https://github.com/patrick-brian-mooney/personal-library
+import social_media                 # From https://github.com/patrick-brian-mooney/personal-library
 from social_media_auth import autolovecraft_client
 
 import text_generator as tg         # https://github.com/patrick-brian-mooney/markov-sentence-generator
 
 
 patrick_logger.verbosity_level = 2
-chains_file = '/lovecraft/corpora/The Alchemist.2.pkl'
+chains_file = '/lovecraft/corpora/Memory.2.pkl'
 post_archives = '/lovecraft/archives'
 
 # Set up default values
