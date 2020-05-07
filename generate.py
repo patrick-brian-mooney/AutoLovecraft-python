@@ -33,11 +33,11 @@ import text_generator as tg         # https://github.com/patrick-brian-mooney/ma
 
 
 # First, some contants.
-chains_file = '/lovecraft/corpora/Memory.2.pkl'
+chains_file = '/lovecraft/corpora/In the Vault.3.pkl'
 post_archives = '/lovecraft/archives'
 
 the_tags = ['H.P. Lovecraft', 'automatically generated text', 'Patrick Mooney', 'Python',
-            'Markov chains', '1919', 'Memory', 'Memory week']
+            'Markov chains', '1925', 'In the Vault', 'In the Vault week']
 
 
 # Utility functions
