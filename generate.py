@@ -26,10 +26,12 @@ import random
 import sys
 
 import social_media                 # From https://github.com/patrick-brian-mooney/personal-library
-from social_media_auth import autolovecraft_client
 
 import text_generator as tg         # https://github.com/patrick-brian-mooney/markov-sentence-generator
 
+
+with open('/social_media_auth.json', encoding='utf-8') as auth_file:
+    autolovecraft_client = social_media.Tumblpy_from_dict(json.loads(auth_file.read())['autolovecraft_client'])
 
 
 # First, some contants.
