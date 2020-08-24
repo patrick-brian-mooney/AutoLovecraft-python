@@ -15,11 +15,13 @@ LICENSE.md for details.
 from tumblpy import Tumblpy     # [sudo] pip[3] install python-tumblpy; https://github.com/michaelhelmick/python-tumblpy
 import tweepy                   # http://www.tweepy.org/
 
+
 verbosity_level = 2
 
 def log_it(what, debug_level=1):
     if debug_level >= verbosity_level:
         print(what)
+
 
 # Format for Tumblr clients is:
 # the_client = Tumblpy(
@@ -31,6 +33,7 @@ def log_it(what, debug_level=1):
 def Tumblpy_from_dict(data):
     """Create a Tumblpy object from the authentication constants stored in a dictionary."""
     return Tumblpy(data['consumer_key'], data['consumer_secret'], data['token_key'], data['token_secret'])
+
 
 def tumblr_text_post(the_client, the_tags, the_title, the_content):
     """Create a text post on Tumblr, using THE_CLIENT as an API object. THE_TAGS,
@@ -65,6 +68,7 @@ def get_new_twitter_API(client_credentials):
     ret.wait_on_rate_limit, ret.wait_on_rate_limit_notify = True, True
     return ret
 
+
 def _the_API(client_credentials=None, API_instance=None):
     """Private convenience function to get an API instance object from several
     possible values that the calling code might supply.
@@ -76,12 +80,14 @@ def _the_API(client_credentials=None, API_instance=None):
             API_instance = get_new_twitter_API(client_credentials)
     return API_instance
 
+
 def post_tweet(the_tweet, client_credentials=None, API_instance=None):
     """Post a tweet, THE_TWEET. If you already have a Tweepy API instance handy
     pass that in as API_instance; otherwise, pass in a CLIENT_CREDENTIALS
     dictionary and a throwaway API object will be created, then discarded.
     """
     return _the_API(client_credentials, API_instance).update_status(status=the_tweet)
+
 
 def post_reply_tweet(text, user_id, tweet_id, client_credentials=None, API_instance=None):
     """Post a reply tweet. TWEET_ID is the id of the tweet that this tweet is a reply
@@ -93,15 +99,16 @@ def post_reply_tweet(text, user_id, tweet_id, client_credentials=None, API_insta
     log_it("INFO: posting tweet: @%s %s  ----  in reply to tweet ID# %d" % (user_id, text, tweet_id))
     return _the_API(client_credentials, API_instance).update_status("@%s %s" % (user_id, text), in_reply_to_status_id = tweet_id)
 
+
 def modified_retweet(text, user_id, tweet_id):
-    """Tweet a message about another tweet.
-    """
-    log_it("%s\n\nhttps://twitter.com/%s/status/%s" % (text, user_id, tweet_ID))
-    the_API.update_status("%s\n\nhttps://twitter.com/%s/status/%s" % (text, user_id, tweet_ID))
+    """Tweet a message about another tweet."""
+    log_it("%s\n\nhttps://twitter.com/%s/status/%s" % (text, user_id, tweet_id))
+    _the_API.update_status("%s\n\nhttps://twitter.com/%s/status/%s" % (text, user_id, tweet_id))
+
 
 def send_DM(the_API, text, user):
     """Send a direct message to another user. Currently, this method is only used to
     reply to DMs sent by other users. Does not currently do anything.
     """
     log_it("DM @%s: %s" % (user, text))
-    the_API.send_direct_message(user=user, text=text)
+    _the_API.send_direct_message(user=user, text=text)
