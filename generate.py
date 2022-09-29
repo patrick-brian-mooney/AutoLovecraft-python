@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.5
+#!/lovecraft/bin/python3
 """Script to post to AutoLovecraft.tumblr.com. Really rough sketch of a
 script here. Not really meant for public use. Based on my earlier script to
 do a similar job for the IrishLitDiscourses Tumblr account; see
