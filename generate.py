@@ -16,7 +16,6 @@ for first steps here when I was first cutting my teeth on Python.
 """
 
 
-
 import bz2
 import datetime
 import json
@@ -35,11 +34,11 @@ with open('/social_media_auth.json', encoding='utf-8') as auth_file:
 
 
 # First, some contants.
-chains_file = '/lovecraft/corpora/In the Vault.3.pkl'
+chains_file = '/lovecraft/corpora/Memory.2.pkl'
 post_archives = '/lovecraft/archives'
 
 the_tags = ['H.P. Lovecraft', 'automatically generated text', 'Patrick Mooney', 'Python',
-            'Markov chains', '1925', 'In the Vault', 'In the Vault week']
+            'Markov chains', '1919', 'Memory', 'Memory week']
 
 
 # Utility functions
